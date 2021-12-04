@@ -4,30 +4,65 @@ console.log("working");
 // Create the map object with a center and zoom level.
 let map = L.map("mapid", {
   center: [
-    37.619, -122.375
+    30, 30
   ],
-  zoom: 13
+  zoom: 2
 });
 
+
+// Accessing the airport GeoJSON URL from GitHub repo
+let airportData = "https://raw.githubusercontent.com/jj2773/Mapping_Earthquakes/Mapping_GeoJSON_Points/Simple_Map/majorAirports.json";
+
+// var jjdatatest=[]
+
+// Grabbing our GeoJSON data.
+// ex 1
+// d3.json(airportData).then(function(data) {
+//   console.log(data);
+//   jjdatatest=data;
+// // Creating a GeoJSON layer with the retrieved data.
+// L.geoJSON(data)
+// .addTo(map);
+// });
+
+var layerjj=[];
+var featurejj=[];
+
+// skill builder add labels of airport name and symb
+d3.json(airportData).then(function(data) {
+  console.log(data);
+  // Creating a GeoJSON layer with the retrieved data.
+  L.geoJSON(data, {
+    onEachFeature: function(feature, layer) {
+      featurejj=feature
+      layerjj=layer
+      console.log(layer)
+      console.log(feature)
+      layer.bindPopup("<h2>" + feature.properties.faa + "</h2> <hr> <h3> Airport Name: " + feature.properties.name+ "</h3>");
+      }
+}).addTo(map);
+});
+
+
 // Add GeoJSON data.
-let sanFranAirport =
-{"type":"FeatureCollection","features":[{
-    "type":"Feature",
-    "properties":{
-        "id":"3469",
-        "name":"San Francisco International Airport",
-        "city":"San Francisco",
-        "country":"United States",
-        "faa":"SFO",
-        "icao":"KSFO",
-        "alt":"13",
-        "tz-offset":"-8",
-        "dst":"A",
-        "tz":"America/Los_Angeles"},
-        "geometry":{
-            "type":"Point",
-            "coordinates":[-122.375,37.61899948120117]}}
-]};
+// let sanFranAirport =
+// {"type":"FeatureCollection","features":[{
+//     "type":"Feature",
+//     "properties":{
+//         "id":"3469",
+//         "name":"San Francisco International Airport",
+//         "city":"San Francisco",
+//         "country":"United States",
+//         "faa":"SFO",
+//         "icao":"KSFO",
+//         "alt":"13",
+//         "tz-offset":"-8",
+//         "dst":"A",
+//         "tz":"America/Los_Angeles"},
+//         "geometry":{
+//             "type":"Point",
+//             "coordinates":[-122.375,37.61899948120117]}}
+// ]};
 
 // Grabbing our GeoJSON data.
 //example 1 plots a market at the airport coordinates
@@ -59,20 +94,20 @@ let sanFranAirport =
   //     return L.marker(latlng).bindPopup("<h2>" + feature.properties.city + "</h2>")
   //   }
   //   }).addTo(map);
-var layerjj=[]
-var featurejj=[]
+// var layerjj=[]
+// var featurejj=[]
 
   //example 5 on each feature with Popup allows for adding properties of the object
   //features are passed into the feature variable while properties are pasted in the layer variable
-  L.geoJSON(sanFranAirport, {
-    onEachFeature: function(feature, layer) {
-      featurejj=feature
-      layerjj=layer
-      console.log(layer)
-      console.log(feature)
-      layer.bindPopup("<h2>" + feature.properties.faa + "</h2> <hr> <h3> Airport Name: " + feature.properties.name+ "</h3>");
-      }
-}).addTo(map);
+//   L.geoJSON(sanFranAirport, {
+//     onEachFeature: function(feature, layer) {
+//       featurejj=feature
+//       layerjj=layer
+//       console.log(layer)
+//       console.log(feature)
+//       layer.bindPopup("<h2>" + feature.properties.faa + "</h2> <hr> <h3> Airport Name: " + feature.properties.name+ "</h3>");
+//       }
+// }).addTo(map);
 
 
 // preparing airline route info for LAX to SFO
