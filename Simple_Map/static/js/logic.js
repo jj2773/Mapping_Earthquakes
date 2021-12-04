@@ -1,11 +1,12 @@
 // Add console.log to check to see if our code is working.
 console.log("working");
 
-
+// Accessing the Toronto airline routes GeoJSON URL.
+let torontoData = "https://raw.githubusercontent.com/jj2773/Mapping_Earthquakes/Mapping_GeoJSON_Linestrings/Simple_Map/torontoRoutes.json";
 
 
 // Accessing the airport GeoJSON URL from GitHub repo
-let airportData = "https://raw.githubusercontent.com/jj2773/Mapping_Earthquakes/Mapping_GeoJSON_Points/Simple_Map/majorAirports.json";
+// let airportData = "https://raw.githubusercontent.com/jj2773/Mapping_Earthquakes/Mapping_GeoJSON_Points/Simple_Map/majorAirports.json";
 
 // var jjdatatest=[]
 
@@ -22,20 +23,31 @@ let airportData = "https://raw.githubusercontent.com/jj2773/Mapping_Earthquakes/
 var layerjj=[];
 var featurejj=[];
 
+// Create a style for the lines.
+let myStyle = {
+  color: "#ffffa1",
+  weight: 2
+}
+
 // skill builder add labels of airport name and symb
-d3.json(airportData).then(function(data) {
+d3.json(torontoData).then(function(data) {
   console.log(data);
   // Creating a GeoJSON layer with the retrieved data.
   L.geoJSON(data, {
+    //note we could have replaced the weight and color with myStyle
+    weight:2,
+    color:'#ffffa1',
     onEachFeature: function(feature, layer) {
       featurejj=feature
       layerjj=layer
       console.log(layer)
       console.log(feature)
-      layer.bindPopup("<h2>" + feature.properties.faa + "</h2> <hr> <h3> Airport Name: " + feature.properties.name+ "</h3>");
+      // layer.bindPopup("<h2>" + feature.properties.faa + "</h2> <hr> <h3> Airport Name: " + feature.properties.name+ "</h3>");
       }
 }).addTo(map);
 });
+
+
 
 
 // Add GeoJSON data.
@@ -157,7 +169,7 @@ d3.json(airportData).then(function(data) {
 
 // We create the tile layer that will be the background of our map.
 //let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
-let streets = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v11/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+let light = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/{z}/{x}/{y}?access_token={accessToken}', {
 attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery (c) <a href="https://www.mapbox.com/">Mapbox</a>',
     maxZoom: 18,
     accessToken: API_KEY
@@ -171,17 +183,17 @@ attribution: 'Map data © <a href="https://www.openstreetmap.org/">OpenStreetMap
 });
 
 let baseMaps= {
-  Street: streets,
+  Street: light,
   Dark: dark
 }
 
 // Create the map object with a center and zoom level.
 let map = L.map("mapid", {
   center: [
-    30, 30
+    44, -80
   ],
   zoom: 2,
-  layers:[streets]
+  layers:[light]
 });
 
 //pass map layers into our layer control
